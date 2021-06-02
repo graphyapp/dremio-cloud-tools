@@ -25,7 +25,7 @@ podAnnotations: {}
 labels: {}
 podLabels: {}
 nodeSelector: {}
-tolerations: [] 
+tolerations: []
 
 # Dremio Coordinator
 coordinator:
@@ -409,4 +409,3 @@ service:
 # https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
 #imagePullSecrets:
 #  - secretname
-
