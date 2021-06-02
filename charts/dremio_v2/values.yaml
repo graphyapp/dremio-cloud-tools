@@ -8,7 +8,7 @@
 # automatically during redeployments and may negatively impact
 # the cluster.
 image: dremio/dremio-oss
-imageTag: latest 
+imageTag: latest
 
 # Annotations, labels, node selectors, and tolerations
 #
@@ -25,7 +25,7 @@ podAnnotations: {}
 labels: {}
 podLabels: {}
 nodeSelector: {}
-tolerations: {}
+tolerations: [] 
 
 # Dremio Coordinator
 coordinator:
@@ -409,3 +409,4 @@ service:
 # https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
 #imagePullSecrets:
 #  - secretname
+
