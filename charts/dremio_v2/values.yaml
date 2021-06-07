@@ -381,8 +381,7 @@ service:
 
   # These values, when defined and not empty, override the provided shared annotations and labels.
   # Uncomment only if you are trying to override the chart's shared values.
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: "nlb-ip"
+  #annotations: {}
   #labels: {}
 
   # If the loadBalancer supports sessionAffinity and you have more than one coordinator,
