@@ -1,0 +1,50 @@
+version: "2"
+
+services:
+  dremio-master:
+    restart: always
+    image: dremio/dremio-oss:19.1
+    hostname: dremio-master
+    volumes:
+      - ./dremio.conf:/opt/dremio/conf/dremio.conf:ro
+      - ./dremio-env:/opt/dremio/conf/dremio-env:ro
+      - dremio_data:/var/lib/dremio
+    ports:
+      - "9047:9047"   # UI (HTTP)
+      - "31010:31010" # ODBC/JDBC clients
+      - "45678:45678" # Inter-node communication
+      - "12543:12543" # Prom Exporter
+    environment:
+      DREMIO_JAVA_SERVER_EXTRA_OPTS: >
+        -Dzookeeper=zookeeper:2181
+        -Dservices.coordinator.enabled=true
+        -Dservices.coordinator.master.enabled=true
+        -Dservices.coordinator.master.embedded-zookeeper.enabled=false
+        -Dservices.executor.enabled=false
+  dremio-executor:
+    restart: always
+    image: dremio/dremio-oss:19.1
+    hostname: dremio-executor-1
+    volumes:
+      - dremio_data:/var/lib/dremio
+    environment:
+      DREMIO_JAVA_SERVER_EXTRA_OPTS: >
+        -Dzookeeper=zookeeper:2181
+        -Dservices.coordinator.enabled=false
+        -Dservices.coordinator.master.enabled=false
+        -Dservices.coordinator.master.embedded-zookeeper.enabled=false
+        -Dservices.executor.enabled=true
+  zookeeper:
+    image: docker.io/bitnami/zookeeper:3.7
+    ports:
+      - '2181'
+    volumes:
+      - zookeeper_data:/bitnami
+    environment:
+      - ZOO_SERVER_ID=1
+      - ALLOW_ANONYMOUS_LOGIN=yes
+      - ZOO_SERVERS=zookeeper:2888:3888
+
+volumes:
+  dremio_data:
+  zookeeper_data:
